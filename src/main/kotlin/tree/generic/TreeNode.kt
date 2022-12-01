@@ -1,8 +1,8 @@
 package tree.generic
 
 import queue.StackQueue
-import tree.Visitor
 
+typealias Visitor<T> = (TreeNode<T>) -> Unit
 class TreeNode<T: Any>(val value: T) {
 
     private val children: MutableList<TreeNode<T>> =  mutableListOf()
