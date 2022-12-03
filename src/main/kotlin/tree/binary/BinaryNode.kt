@@ -5,10 +5,7 @@ import kotlin.math.max
 
 typealias Visitor<T> = (T?) -> Unit
 
-class BinaryNode<T: Comparable<T>>(var value: T) {
-
-    var leftChild: BinaryNode<T>? = null
-    var rightChild: BinaryNode<T>? = null
+class BinaryNode<T: Comparable<T>>(value: T): TraversableBinaryNode<BinaryNode<T>, T>(value) {
 
     val min: BinaryNode<T>?
         get() = leftChild?.min ?: this
@@ -25,24 +22,6 @@ class BinaryNode<T: Comparable<T>>(var value: T) {
         }
         return isBST(tree.leftChild, min, tree.value) &&
                 isBST(tree.rightChild, tree.value, max)
-    }
-
-    fun traverseInOrder(visit: Visitor<T>) {
-        leftChild?.traverseInOrder(visit)
-        visit(value)
-        rightChild?.traverseInOrder(visit)
-    }
-
-    fun traversePreOrder(visit: Visitor<T>) {
-        visit(value)
-        leftChild?.traversePreOrder(visit)
-        rightChild?.traversePreOrder(visit)
-    }
-
-    fun traversePostOrder(visit: Visitor<T>) {
-        leftChild?.traversePostOrder(visit)
-        rightChild?.traversePostOrder(visit)
-        visit(value)
     }
 
     fun height(node: BinaryNode<T>? = this): Int {
@@ -86,7 +65,6 @@ class BinaryNode<T: Comparable<T>>(var value: T) {
             false
         }
     }
-
 
     override fun toString() = diagram(this)
     private fun diagram(node: BinaryNode<T>?,
