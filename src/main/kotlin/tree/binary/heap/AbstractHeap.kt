@@ -46,10 +46,10 @@ abstract class AbstractHeap<T: Any>(): Heap<T> {
             val left = leftChildIndex(parent)
             val right = rightChildIndex(parent)
             var candidate = parent
-            if (compare(elements[left], elements[candidate]) > 0) {
+            if (left < count && compare(elements[left], elements[candidate]) > 0) {
                 candidate = left
             }
-            if (compare(elements[right], elements[candidate]) > 0) {
+            if (right < count && compare(elements[right], elements[candidate]) > 0) {
                 candidate = right
             }
             if (candidate == parent) return
@@ -122,10 +122,10 @@ abstract class AbstractHeap<T: Any>(): Heap<T> {
         (count / 2 downTo 0).forEach {
             val left = leftChildIndex(it)
             val right = rightChildIndex(it)
-            if (left < count && compare(elements[left], elements[it]) > 0) {
+            if (left < count && compare(elements[left], elements[it]) < 0) {
                 return false
             }
-            if (left < count && compare(elements[left], elements[it]) > 0) {
+            if (right < count && compare(elements[right], elements[it]) < 0) {
                 return false
             }
         }
