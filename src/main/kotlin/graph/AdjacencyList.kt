@@ -2,6 +2,9 @@ package graph
 
 class AdjacencyList<T: Any>: Graph<T> {
 
+    override val allVertices: ArrayList<Vertex<T>>
+        get() = ArrayList(adjacencies.keys)
+
     private val adjacencies: HashMap<Vertex<T>, ArrayList<Edge<T>>> = HashMap()
 
     override fun createVertex(data: T): Vertex<T> {

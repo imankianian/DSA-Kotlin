@@ -2,6 +2,9 @@ package graph
 
 class AdjacencyMatrix<T: Any>: Graph<T> {
 
+    override val allVertices: ArrayList<Vertex<T>>
+        get() = vertices
+
     private val vertices = arrayListOf<Vertex<T>>()
     private val weights = arrayListOf<ArrayList<Double?>>()
 
