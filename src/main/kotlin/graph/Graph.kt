@@ -1,6 +1,7 @@
 package graph
 
 import queue.StackQueue
+import stack.StackImpl
 
 interface Graph<T: Any> {
 
@@ -76,6 +77,72 @@ interface Graph<T: Any> {
         allVertices.forEach {
             if (!visited.contains(it)) return true
         }
+        return false
+    }
+
+    fun depthFirstSearch(source: Vertex<T>): ArrayList<Vertex<T>> {
+        val stack = StackImpl<Vertex<T>>()
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
+        stack.push(source)
+        pushed.add(source)
+        visited.add(source)
+        outer@ while (true) {
+            if (stack.isEmpty) break
+            val vertex = stack.peek()!!
+            val neighbors = edges(vertex)
+            if (neighbors.isEmpty()) {
+                stack.pop()
+                continue
+            }
+            for (i in 0 until neighbors.size) {
+                val destination = neighbors[i].destination
+                if (destination !in pushed) {
+                    stack.push(destination)
+                    pushed.add(destination)
+                    visited.add(destination)
+                    continue@outer
+                }
+            }
+            stack.pop()
+        }
+        return visited
+    }
+
+    fun dfs(source: Vertex<T>): ArrayList<Vertex<T>> {
+        val visited = arrayListOf<Vertex<T>>()
+        val pushed = mutableSetOf<Vertex<T>>()
+        dfs(source, visited, pushed)
+        return visited
+    }
+
+    private fun dfs(source: Vertex<T>, visited: ArrayList<Vertex<T>>, pushed: MutableSet<Vertex<T>>) {
+        pushed.add(source)
+        visited.add(source)
+        val neighbors = edges(source)
+        neighbors.forEach {
+            if (it.destination !in pushed) {
+                dfs(it.destination, visited, pushed)
+            }
+        }
+    }
+
+    fun hasCycle(source: Vertex<T>): Boolean {
+        val pushed = mutableSetOf<Vertex<T>>()
+        return hasCycle(source, pushed)
+    }
+
+    private fun hasCycle(source: Vertex<T>, pushed: MutableSet<Vertex<T>>): Boolean {
+        pushed.add(source)
+        val neighbors = edges(source)
+        neighbors.forEach {
+            if (it.destination !in pushed && hasCycle(it.destination, pushed)) {
+                return true
+            } else if (it.destination in pushed) {
+                return true
+            }
+        }
+        pushed.remove(source)
         return false
     }
 }
