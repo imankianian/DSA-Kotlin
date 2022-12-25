@@ -5,6 +5,15 @@ class AdjacencyList<T: Any>: Graph<T> {
     override val allVertices: ArrayList<Vertex<T>>
         get() = ArrayList(adjacencies.keys)
 
+    val vertices: Set<Vertex<T>>
+        get() = adjacencies.keys
+
+    fun copyVertices(graph: AdjacencyList<T>) {
+        graph.vertices.forEach {
+            adjacencies[it] = arrayListOf()
+        }
+    }
+
     private val adjacencies: HashMap<Vertex<T>, ArrayList<Edge<T>>> = HashMap()
 
     override fun createVertex(data: T): Vertex<T> {

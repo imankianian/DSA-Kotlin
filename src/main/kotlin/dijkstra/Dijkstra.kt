@@ -8,7 +8,6 @@ import queue.priorityqueue.ComparatorPriorityQueueImpl
 class Dijkstra <T: Any>(private val graph: AdjacencyList<T>) {
 
     private fun route(destination: Vertex<T>, paths: HashMap<Vertex<T>, Visit<T>>): ArrayList<Edge<T>> {
-
         var vertex = destination
         val path = arrayListOf<Edge<T>>()
         loop@ while (true) {
